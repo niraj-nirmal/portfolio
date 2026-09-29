@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://niraj-nirmal.github.io/portfolio/sitemap-index.xml

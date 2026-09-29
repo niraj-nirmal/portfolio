@@ -1,0 +1,305 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import portrait from '../assets/portrait.png';
+import github from '../data/github.json';
+import leetcode from '../data/leetcode.json';
+
+const base = import.meta.env.BASE_URL;
+
+const posts = (await getCollection('writing', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const lc = leetcode.solved;
+const lcPct = lc.all > 0 ? { easy: (lc.easy / lc.all) * 100, medium: (lc.medium / lc.all) * 100 } : { easy: 0, medium: 0 };
+const ringStyle = `background: conic-gradient(var(--gold) 0 ${lcPct.easy}%, var(--maroon) ${lcPct.easy}% ${lcPct.easy + lcPct.medium}%, var(--black-3) ${lcPct.easy + lcPct.medium}% 100%);`;
+
+const msLogo = 'M3 3h8.5v8.5H3zM12.5 3H21v8.5h-8.5zM3 12.5h8.5V21H3zM12.5 12.5H21V21h-8.5z';
+const amznLogo = 'M2.5 16.5c3 2.3 6.9 3.5 10.4 3.5 3 0 6.2-.8 8.6-2.5.4-.3.1-.8-.4-.6-2.7 1.1-5.6 1.7-8.2 1.7-3.5 0-6.9-1-9.8-2.6-.4-.2-.8.2-.6.5zM21.9 15c-.3-.4-2-.2-2.8-.1-.2 0-.3.2-.1.4.9.6 2.3 1.6 2.1 2.7 0 .2.2.3.4.1.6-.8.8-2.6.4-3.1z';
+
+const dateFmt = new Intl.DateTimeFormat('en-GB', { month: 'short', year: 'numeric' });
+---
+<Base
+  title="Niraj Nirmal — Senior Machine Learning Technology Leader"
+  description="Senior machine learning technology leader with a decade of experience building AI products and platforms across the technology industry. Amazon, Microsoft, University of Cambridge."
+>
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="ml-mark" aria-hidden="true" lang="ml">നീരജ് നിർമ്മൽ</div>
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow">Cambridge, United Kingdom</div>
+        <h1>Niraj Nirmal<br /><em>building AI, responsibly.</em></h1>
+        <p class="lede">
+          Senior machine learning technology leader with a decade of experience building AI products
+          and platforms across the technology industry.
+        </p>
+        <div class="cta">
+          <a class="btn primary" href="#work">View work</a>
+          <a class="btn ghost" href="#contact">Get in touch</a>
+        </div>
+      </div>
+      <div class="portrait-wrap">
+        <div class="portrait-frame">
+          <div class="portrait-clip">
+            <Image src={portrait} alt="Niraj Nirmal, wearing a black bandhgala, in a gilded hall" width={640} densities={[1, 2]} loading="eager" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS — first glance -->
+  <section class="products" aria-label="Products I've helped build and ship">
+    <div class="wrap">
+      <div class="note">Products I've helped build &amp; ship</div>
+      <div class="row">
+        <span class="wm"><svg viewBox="0 0 24 24" aria-hidden="true"><path d={msLogo} /></svg><b>Microsoft</b>&nbsp;Azure</span>
+        <span class="wm"><b>Microsoft</b>&nbsp;Circular Centers</span>
+        <span class="wm"><b>Microsoft</b>&nbsp;Dynamics 365</span>
+        <span class="wm"><svg viewBox="0 0 24 24" aria-hidden="true"><path d={amznLogo} /></svg><b>AWS</b></span>
+        <span class="wm"><b>Alexa+</b></span>
+        <span class="wm"><b>Amazon</b>&nbsp;Polly</span>
+        <span class="wm"><b>Audible</b></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ASSOCIATED WITH -->
+  <section class="assoc-sec" aria-label="Associated with">
+    <div class="wrap">
+      <div class="assoc-label">Associated with</div>
+      <div class="assoc">
+        <a href="https://www.microsoft.com" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d={msLogo} /></svg>Microsoft</a>
+        <a href="https://www.amazon.com" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d={amznLogo} /></svg>Amazon</a>
+        <a href="https://www.lcfi.ac.uk/education/mst" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 3 6v2h18V6zM5 10v7h3v-7zm5.5 0v7h3v-7zM16 10v7h3v-7zM3 19v2h18v-2z" /></svg>University of Cambridge</a>
+        <a href="https://www.novatalent.com/111-list/the-nova-111-list-uk-2026/" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.2-6.3-4.5-6.3 4.5L8 13.6l-6-4.4h7.6z" /></svg>Nova 111 · UK 2026</a>
+        <a href="https://www.mica.ac.in/" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l10 10-10 10L2 12z" /></svg>MICA · AI Advisory Board</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider" aria-hidden="true"></div>
+
+  <!-- ABOUT -->
+  <section class="block reveal" id="about" style="padding-top:48px">
+    <div class="wrap">
+      <div class="sec-head"><span class="num">01</span><h2>About</h2></div>
+      <div class="about">
+        <div>
+          <p>
+            I've spent nearly a decade as a <strong>Technical Program Manager</strong> and
+            <strong>Technical Product Manager</strong>, taking ambiguous, frontier problems and turning
+            them into platforms, strategies and operating mechanisms that last.
+          </p>
+          <p>
+            Today I lead machine learning platform and evaluation programs for speech and conversational
+            AI at Amazon. Before that, I owned product roadmaps and enterprise delivery at Microsoft
+            across EMEA and the Americas.
+          </p>
+          <p>
+            I'm completing a postgraduate degree in AI Ethics &amp; Society at the University of
+            Cambridge, was named to the
+            <a href="https://www.novatalent.com/111-list/the-nova-111-list-uk-2026/">Nova 111 UK list</a>,
+            and serve on the AI Advisory Board of MICA.
+          </p>
+        </div>
+        <ul class="focus">
+          <li><strong>MLOps &amp; ML platforms</strong><small>Data → training → evaluation → release</small></li>
+          <li><strong>Model evaluation</strong><small>LLM-as-a-Judge, human-in-the-loop</small></li>
+          <li><strong>Responsible AI</strong><small>Governance, safety, accountability</small></li>
+          <li><strong>Program &amp; product leadership</strong><small>Strategy, roadmaps, cross-org execution</small></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="block reveal" id="experience" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head"><span class="num">02</span><h2>Experience</h2></div>
+      <div class="timeline">
+        <div class="role">
+          <div class="when">Apr 2025 — Present</div>
+          <h3>Senior Technical Program Manager</h3>
+          <div class="org">Amazon · Artificial General Intelligence · Cambridge, UK</div>
+          <details>
+            <summary>Highlights</summary>
+            <ul>
+              <li>Own strategy and roadmap for a speech ML platform used across Alexa+, Amazon Polly and Audible in 30+ locales.</li>
+              <li>Leading end-to-end model release automation and LLM-as-a-Judge evaluation services.</li>
+            </ul>
+          </details>
+        </div>
+        <div class="role">
+          <div class="when">Nov 2022 — Apr 2025</div>
+          <h3>Technical Program Manager II</h3>
+          <div class="org">Amazon · Artificial General Intelligence · Cambridge, UK</div>
+          <details>
+            <summary>Highlights</summary>
+            <ul>
+              <li>Built the speech MLOps program from scratch; unified siloed platforms (~90% less maintenance).</li>
+              <li>Launched next-generation Alexa voices; led Responsible AI compliance workstreams.</li>
+            </ul>
+          </details>
+        </div>
+        <div class="role">
+          <div class="when">May 2021 — Nov 2022</div>
+          <h3>Technical Product Manager I–II</h3>
+          <div class="org">Microsoft · Azure Supply Chain · Hyderabad, India</div>
+          <details>
+            <summary>Highlights</summary>
+            <ul>
+              <li>Product owner for Microsoft Circular Centers on Dynamics 365 and Power Apps.</li>
+            </ul>
+          </details>
+        </div>
+        <div class="role">
+          <div class="when">Jul 2017 — May 2021</div>
+          <h3>Technical Program Manager · Associate Consultant</h3>
+          <div class="org">Microsoft · Consulting Services · Hyderabad, India</div>
+          <details>
+            <summary>Highlights</summary>
+            <ul>
+              <li>Delivered 40+ digital transformation programs for Fortune 500 and public-sector customers.</li>
+            </ul>
+          </details>
+        </div>
+        <div class="role">
+          <div class="when">2015 — 2017</div>
+          <h3>Project Intern</h3>
+          <div class="org">EY · Trivandrum, India</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider" aria-hidden="true"></div>
+
+  <!-- WORK -->
+  <section class="block reveal" id="work">
+    <div class="wrap">
+      <div class="sec-head"><span class="num">03</span><h2>Selected work</h2></div>
+      <div class="grid-3">
+        <article class="card">
+          <div class="art" aria-hidden="true">
+            <svg viewBox="0 0 300 140" preserveAspectRatio="xMidYMid slice"><g fill="none" stroke="#A8863C" stroke-width="1.2" opacity=".7"><path d="M20 70h50l15-30 15 60 15-30h50" /><circle cx="195" cy="70" r="4" fill="#C9A24B" stroke="none" /><path d="M199 70h30m10 0h30" stroke-dasharray="4 5" /><rect x="262" y="58" width="24" height="24" rx="4" /></g></svg>
+          </div>
+          <span class="tag">Speech AI · MLOps</span>
+          <h3>Speech AI MLOps platform</h3>
+          <p>A unified platform, built from scratch, that automates the model release loop — data, training, evaluation, packaging, deployment — with LLM-as-a-Judge and human evaluation built in.</p>
+          <div class="chips"><span>Release automation</span><span>LLM-as-a-Judge</span><span>~90% less maintenance</span></div>
+        </article>
+        <article class="card">
+          <div class="art" aria-hidden="true">
+            <svg viewBox="0 0 300 140" preserveAspectRatio="xMidYMid slice"><g stroke="#A8863C" stroke-width="1.5" opacity=".75" stroke-linecap="round">{Array.from({ length: 24 }, (_, i) => <line x1={30 + i * 10} x2={30 + i * 10} y1={70 - 8 - 28 * Math.abs(Math.sin(i * 0.9))} y2={70 + 8 + 28 * Math.abs(Math.sin(i * 0.9))} />)}</g></svg>
+          </div>
+          <span class="tag">Alexa · Voice</span>
+          <h3>Next-generation Alexa voices</h3>
+          <p>Launched new neural voices across major locales, plus new masculine voices for Arabic, Hindi and Japanese — now serving a large share of voice traffic.</p>
+          <div class="chips"><span>TTS</span><span>5+ locales</span><span>Launch</span></div>
+        </article>
+        <article class="card">
+          <div class="art" aria-hidden="true">
+            <svg viewBox="0 0 300 140" preserveAspectRatio="xMidYMid slice"><g fill="none" stroke="#A8863C" stroke-width="1.4" opacity=".75"><path d="M150 25a45 45 0 1 1-31.8 13.2" /><path d="M112 30l6 10-12 2z" fill="#C9A24B" stroke="none" /><circle cx="150" cy="70" r="14" stroke="#C25E52" /></g></svg>
+          </div>
+          <span class="tag">Microsoft · Sustainability</span>
+          <h3>Microsoft Circular Centers</h3>
+          <p>Product owner for reverse-supply-chain and circular marketplace apps, rolled out in Amsterdam, Singapore, Dublin and Boydton in support of Microsoft's carbon-negative goal.</p>
+          <div class="chips"><span>Dynamics 365</span><span>Power Apps</span><span>Circular economy</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESEARCH -->
+  <section class="block reveal" id="research" style="padding-top:0">
+    <div class="wrap">
+      <div class="research">
+        <div class="eyebrow">04 · Research · University of Cambridge</div>
+        <blockquote>“Rethinking Governance of Emerging Agentic Workflows in Organisations”</blockquote>
+        <p>MSt dissertation, AI Ethics &amp; Society — examining how accountability shifts when AI agents act inside organisational workflows, and what governance should look like as a result.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CODE -->
+  <section class="block reveal" id="code" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head"><span class="num">05</span><h2>Code &amp; practice</h2></div>
+      <div class="embeds">
+        <div class="card">
+          <span class="tag">GitHub · @{github.user}</span>
+          <h3>Open source</h3>
+          <div class="heat" role="img" aria-label={`GitHub contribution activity, last 6 months${github.totalContributions != null ? `; ${github.totalContributions} contributions in the last year` : ''}`}>
+            {github.calendar.map((d) => <i data-l={d.level} title={d.date}></i>)}
+          </div>
+          {github.repos.map((r) => (
+            <div class="repo">
+              <a href={r.url} rel="noopener">{r.name}</a>
+              <span>{r.language ?? ''}{r.stars ? ` · ★ ${r.stars}` : ''}</span>
+            </div>
+          ))}
+          <p class="stat-note"><a href={`https://github.com/${github.user}`} rel="noopener">View profile →</a></p>
+        </div>
+        <div class="card">
+          <span class="tag">LeetCode · @{leetcode.user}</span>
+          <h3>Problem solving</h3>
+          <div style="display:flex;gap:24px;align-items:center;margin:16px 0">
+            <div class="ring" style={ringStyle}>
+              <span>{lc.all}<small>solved</small></span>
+            </div>
+            <div class="lc-rows">
+              <div><small>Easy</small> {lc.easy}</div>
+              <div><small>Medium</small> {lc.medium}</div>
+              <div><small>Hard</small> {lc.hard}</div>
+            </div>
+          </div>
+          <p class="stat-note">Updated daily at build time · <a href={`https://leetcode.com/u/${leetcode.user}/`} rel="noopener">View profile →</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider" aria-hidden="true"></div>
+
+  <!-- WRITING -->
+  <section class="block reveal" id="writing">
+    <div class="wrap">
+      <div class="sec-head"><span class="num">06</span><h2>Writing</h2></div>
+      <div class="grid-3">
+        {posts.map((post) => (
+          <article class="card post">
+            {post.data.placeholder && <span class="placeholder-badge">Coming soon</span>}
+            <div class="date">
+              {post.data.placeholder ? 'Coming soon' : dateFmt.format(post.data.date)}
+              {post.data.readingTime && ` · ${post.data.readingTime}`}
+            </div>
+            <h3>
+              {post.data.placeholder ? post.data.title : <a href={`${base}/writing/${post.id}/`}>{post.data.title}</a>}
+            </h3>
+            <p>{post.data.description}</p>
+            <div class="chips">{post.data.tags.map((t) => <span>{t}</span>)}</div>
+          </article>
+        ))}
+      </div>
+      <a class="archive-link" href={`${base}/writing/`}>View archive →</a>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section class="block reveal" id="education" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head"><span class="num">07</span><h2>Education</h2></div>
+      <div class="edu">
+        <div class="card"><span class="tag">2024 — 2026</span><h3>University of Cambridge</h3><p>Master of Studies, AI Ethics &amp; Society</p></div>
+        <div class="card"><span class="tag">2013 — 2017</span><h3>University of Kerala</h3><p>B.Tech, Computer Science &amp; Engineering</p></div>
+      </div>
+      <div class="certs">
+        <span>PMP</span><span>PMI-ACP</span><span>Azure Fundamentals (AZ-900)</span><span>Dynamics 365 Fundamentals</span><span>INSEAD · Value Negotiation</span><span>Kellogg · Insights &amp; Analytics</span>
+      </div>
+    </div>
+  </section>
+</Base>
